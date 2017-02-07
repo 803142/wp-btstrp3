@@ -14,14 +14,15 @@
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
-    <?php $a=wp_get_attachment_image_src( get_post_thumbnail_id($post->ID),'thumbnail');?>
+    <?php $a=wp_get_attachment_image_src( get_post_thumbnail_id($post->ID),'medium');?>
 	
 	<?php if ( !is_single() ) : ?>
+	<?php the_title( '<h3 >', '</h3>' ); ?>
 	<div class="row">		
-            <?php the_title( '<h3 >', '</h3>' ); ?>
-            <div class="col-md-4 ">
+            
+        <div class="col-md-4 ">
 		<img class="img-responsive mw-100" <?php echo 'src="'.$a[0] ?> " alt="">
-	</div>	
+		</div>	
 	    	
 	
 	<div class="col-md-8">

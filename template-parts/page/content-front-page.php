@@ -2,14 +2,12 @@
 /**
  * Displays content for front page
  *
- * @package WordPress
- * @subpackage Twenty_Seventeen
  * @since 1.0
  * @version 1.0
  */
 
 ?>
-<article id="post-<?php the_ID(); ?>" <?php post_class( 'twentyseventeen-panel ' ); ?> >
+<article id="post-<?php the_ID(); ?>" <?php /*post_class( 'twentyseventeen-panel ' );*/?> >
 
 	<?php if ( has_post_thumbnail() ) :
 		$thumbnail = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'twentyseventeen-featured-image' );
@@ -33,7 +31,7 @@
 			<header class="entry-header">
 				<?php the_title( '<h2 class="entry-title">', '</h2>' ); ?>
 
-				<?php twentyseventeen_edit_link( get_the_ID() ); ?>
+
 
 			</header><!-- .entry-header -->
 

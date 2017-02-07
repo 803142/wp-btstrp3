@@ -73,9 +73,18 @@ html{margin: 0px !important;}
     border-color: #ccc;
 }
 .carousel-inner>.item>a>img, .carousel-inner>.item>img, .img-responsive, .thumbnail a>img, .thumbnail>img {
-    display: inline;
-    max-width: 100%;
-    height: auto;
+   
+    margin: 0 auto;
 }
-
-
+.navbar {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border: none;
+}
+.navbar-brand {
+    float: left;
+    height: 50px;
+    padding: 15px 15px;
+    font-size: 2em;
+    line-height: 20px;
+}
