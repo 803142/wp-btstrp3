@@ -36,7 +36,7 @@ Kaf Oseo (http://szub.net)
 /* displays category anchor link 'navigation bar' */
     foreach($cats as $current_cat) :
 ?>
-    <?php if($first) { echo ' | '; } $first++; ?><a href="category/<?php echo get_cat_slug($current_cat); ?>"><?php echo get_the_category_by_id($current_cat); ?></a>
+    <?php if($first) { echo ' | '; } $first++; ?><a href="#cat-<?php echo $current_cat; ?>"><?php echo get_the_category_by_id($current_cat); ?></a>
 <?php endforeach; ?>
     </p>
 
