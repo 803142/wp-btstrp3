@@ -1,17 +1,6 @@
- <?php
-/*
-Display by Category - home.php WordPress template.
-
-This custom template incorporates a custom post loop which displays
-posts organized by category.  Layout based on the WordPress Default
-(Kubrick) 1.5 theme templates.
-
-Kaf Oseo (http://szub.net)
-*/
-?>
 <?php get_header(); ?>
 
-    <div id="content" class="narrowcolumn">
+<div id="content" class="container">
 
 <?php
 /* start of The Loop, Display by Category style */
@@ -44,28 +33,43 @@ Kaf Oseo (http://szub.net)
 /* start of 'display by category' loop */
     foreach($cats as $current_cat) :
 ?>
-        <h2 style="text-align: center; background-color: #48b; margin: 0 -20px 0 -20px;" id="cat-<?php echo $current_cat; ?>"><a style="color: #fff;" href="<?php echo get_category_link($current_cat); ?>" title="View all posts in <?php echo get_the_category_by_id($current_cat); ?>"><?php echo get_the_category_by_id($current_cat); ?></a></h2>
+        <h2  id="cat-<?php echo $current_cat; ?>"><a  href="<?php echo get_category_link($current_cat); ?>" title="View all posts in <?php echo get_the_category_by_id($current_cat); ?>"><?php echo get_the_category_by_id($current_cat); ?></a></h2>
+
+<?php/* post loop for each category listing */?>
+
+<div class="row">
 <?php
-/* post loop for each category listing */
         foreach($posts as $post) :
             the_post();
+            $a=wp_get_attachment_image_src( get_post_thumbnail_id($post->ID),'thumbnail');
             $category = get_the_category();
             if($current_cat == $category[0]->cat_ID) : // if post is in correct category
 ?>
-            <div class="post" id="post-<?php the_ID(); ?>">
-                <h2><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title(); ?>"><?php the_title(); ?></a></h2>
-                <small><?php the_time('F jS, Y') ?> <!-- by <?php the_author() ?> --></small>
-
-                <div class="entry">
-                    <?php the_content('Read the rest of this entry &raquo;'); ?>
-                </div>
-
+            
+              <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                <small style="position: absolute;" class="label label-default"><?php the_time('F jS, Y') ?>
+                 <!-- by <?php the_author() ?> --></small>
+                <small style="position: absolute;right:0;" class="label label-danger">
+                <a  href="<?php echo get_category_link($current_cat);  ?>" style="color:white;" title="View all posts in <?php echo get_the_category_by_id($current_cat); ?>"><?php echo get_the_category_by_id($current_cat); ?></a>
+                </small>
+                <div class="caption">
+                <h3><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title(); ?>">
+                <?php the_title(); ?>                   
+                </a></h3>
+                    <?php the_excerpt(); ?>
                 <p class="postmetadata"><?php edit_post_link('Edit','','<strong>|</strong>'); ?>  <?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?></p>
+				</div>
+                    <img class="img-responsive mw-100" <?php echo 'src="'.$a[0] ?> " alt="">
+                
+            </div>
             </div>
 <?php
             endif; // end 'if post in correct category'
         endforeach; // end post loop
-
+?>
+</div>
+<?php
         rewind_posts(); // reset loop for next category
     endforeach; // end 'display by category' loop
 ?>
@@ -82,9 +86,9 @@ Kaf Oseo (http://szub.net)
         <?php include (TEMPLATEPATH . "/searchform.php"); ?>
 
     <?php endif; // end of The Loop, organized by category style ?>
-
+    <?php get_sidebar(); ?>
     </div>
 
-<?php get_sidebar(); ?>
+
 
 <?php get_footer(); ?> 

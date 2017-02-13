@@ -88,3 +88,42 @@ html{margin: 0px !important;}
     font-size: 2em;
     line-height: 20px;
 }
+.thumbnail .caption {
+  padding: 4px;
+  position: absolute;
+  width:100%;
+  background: rgba(255,255,255,0.5);
+  bottom:0;
+  height: 75%;
+    border-radius: 0 0 0.25em  0.25em;
+    -webkit-transition: border .2s ease-in-out;
+    -o-transition: border .2s ease-in-out;
+    transition: border .2s ease-in-out;
+}
+.thumbnail {
+  padding:0;
+  position: relative;
+  border-radius: .25em;
+    -webkit-transition: border .2s ease-in-out;
+    -o-transition: border .2s ease-in-out;
+    transition: border .2s ease-in-out;
+  background-color: #cdcdcd;
+  border: 1px solid #cdcdcd;
+ 
+  
+}
+img.avatar{
+  border-radius: 50%;
+}
+.thumbnail>img{
+  border-radius: 0.25em;
+    -webkit-transition: border .2s ease-in-out;
+    -o-transition: border .2s ease-in-out;
+    transition: border .2s ease-in-out;
+}
+.comment-form-author,
+.comment-form-email,
+.comment-form-url ,
+.comment-form-comment{
+    width: 50%;
+}

@@ -163,20 +163,20 @@ add_filter('get_image_tag_class','add_image_class');
  *
  * @return string 'Continue reading' link prepended with an ellipsis.
  */
-function m803142_excerpt_more( $link ) {
+/*function m803142_excerpt_more( $link ) {
     if ( is_admin() ) {
         return $link;
     }
 
     $link = sprintf( '<p class="link-more"><a href="%1$s" class="btn btn-primary">%2$s</a></p>',
         esc_url( get_permalink( get_the_ID() ) ),
-        /* translators: %s: Name of current post */
-        sprintf( __( 'Continue reading<span class="screen-reader-text"> "%s"</span>', '803142' ), get_the_title( get_the_ID() ) )
+         translators: %s: Name of current post 
+        sprintf( __( 'Continue reading<span class="screen-reader-text"> "%s"</span>', '803142' ) )
     );
     return ' &hellip; ' . $link;
 }
 add_filter( 'excerpt_more', 'm803142_excerpt_more' );
-
+*/
 // Bootstrap Styles
 if (!is_admin()) {
 
@@ -238,7 +238,6 @@ function bootstrap_embed( $html, $url, $attr ) {
 add_filter( 'embed_oembed_html', 'bootstrap_embed', 10, 3 );
 /* 
  * Изменение вывода галереи через шоткод 
- * Смотреть функцию gallery_shortcode в http://wp-kama.ru/filecode/wp-includes/media.php
  * $output = apply_filters( 'post_gallery', '', $attr );
  */
 
@@ -246,18 +245,23 @@ add_filter('post_gallery', 'my_gallery_output', 10, 2);
 function my_gallery_output( $output, $attr ){
     $ids_arr = explode(',', $attr['ids']);
     $ids_arr = array_map('trim', $ids_arr );
-
+    $glrnmb = rand();
     $pictures = get_posts( array(
         'posts_per_page' => -1,
         'post__in'       => $ids_arr,
         'post_type'      => 'attachment',
         'orderby'        => 'post__in',
     ) );
-
+    $ggg[1] = $glrnmb; 
+  if(is_array($ggg) || is_object($ggg)) {
+    echo("<script>console.log('PHP: ".json_encode($ggg)."');</script>");
+  } else {
+    echo("<script>console.log('PHP: $ids_arr');</script>");
+  }
     if( ! $pictures ) return 'Запрос вернул пустой результат.';
 
     // Вывод
-    $out = '<div id="carousel-example-generic" class="carousel slide " data-ride="carousel" data-interval=false >
+    $out = '<div id="gallery-'.$glrnmb.'" class="carousel slide" data-ride="carousel" data-interval=false  >
             <div class="carousel-inner " role="listbox">';
     $fst=1;
     // Выводим каждую картинку из галереи
@@ -275,11 +279,11 @@ function my_gallery_output( $output, $attr ){
     }
 
     $out .= '</div>  
-      <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+    <a class="left carousel-control " href="#gallery-'.$glrnmb.'" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+  <a class="right carousel-control" href="#gallery-'.$glrnmb.'" role="button" data-slide="next">
     <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
     <span class="sr-only">Next</span>
   </a>
@@ -287,4 +291,45 @@ function my_gallery_output( $output, $attr ){
 
     return $out;
 }
+    add_filter( 'comment_form_default_fields', 'bootstrap3_comment_form_fields' );
+    function bootstrap3_comment_form_fields( $fields ) {
+        $commenter = wp_get_current_commenter();
+        
+        $req      = get_option( 'require_name_email' );
+        $aria_req = ( $req ? " aria-required='true'" : '' );
+        $html5    = current_theme_supports( 'html5', 'comment-form' ) ? 1 : 0;
+        
+        $fields   =  array(
+            'author' => '<div class="form-group comment-form-author">' . '<label for="author">' . __( 'Name' ) . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
+                        '<input class="form-control" id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30"' . $aria_req . ' /></div>',
+            'email'  => '<div class="form-group comment-form-email"><label for="email">' . __( 'Email' ) . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
+                        '<input class="form-control" id="email" name="email" ' . ( $html5 ? 'type="email"' : 'type="text"' ) . ' value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30"' . $aria_req . ' /></div>',
+            'url'    => '<div class="form-group comment-form-url"><label for="url">' . __( 'Website' ) . '</label> ' .
+                        '<input class="form-control" id="url" name="url" ' . ( $html5 ? 'type="url"' : 'type="text"' ) . ' value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30" /></div>'        
+        );
+        
+        return $fields;
+    }
+    add_filter( 'comment_form_defaults', 'bootstrap3_comment_form' );
+    function bootstrap3_comment_form( $args ) {
+        $args['comment_field'] = '<div class="form-group comment-form-comment">
+                <label for="comment">' . _x( 'Comment', 'noun' ) . '</label> 
+                <textarea class="form-control" id="comment" name="comment" cols="45" rows="8" aria-required="true"></textarea>
+            </div>';
+        $args['class_submit'] = 'btn btn-default'; // since WP 4.1
+        
+        return $args;
+    }
+    function remove_more_tags($link) {
+        $offset = strpos($link, '#more-');
+        if ($offset) {
+            $end = strpos($link, '"',$offset);
+        }
+        if ($end) {
+            $link = substr_replace($link, '', $offset, $end-$offset);
+        }
+        return $link;
+    }
+    add_filter('the_content_more_link', 'remove_more_tags');
+
 
