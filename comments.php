@@ -58,7 +58,7 @@ if ( post_password_required() ) {
 			?>
 		</ol><!-- .comment-list -->
 
-		<?php the_comments_navigation(); ?>
+		<div class="col-xs-12 col-md-8"><?php the_comments_navigation(); ?></div>
 
 	<?php endif; // Check for have_comments(). ?>
 
@@ -68,12 +68,12 @@ if ( post_password_required() ) {
 	?>
 		<p class="no-comments"><?php _e( 'Comments are closed.', 'twentysixteen' ); ?></p>
 	<?php endif; ?>
-
+<div class="col-12">
 	<?php
 		comment_form( array(
 			'title_reply_before' => '<h2 id="reply-title" class="comment-reply-title">',
 			'title_reply_after'  => '</h2>',
 		) );
 	?>
-
+</div>
 </div><!-- .comments-area -->

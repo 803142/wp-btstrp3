@@ -14,7 +14,18 @@ add_action('get_header', 'remove_admin_login_header');
 
 function m803142_setup() {
 
-    add_theme_support( 'post-thumbnails' );
+    /*
+     * Enable support for Post Thumbnails on posts and pages.
+     */
+    add_theme_support('post-thumbnails');
+
+    /* Set the image size by cropping the image */
+    add_image_size('post-thumbnail', 400, 218, true);
+    add_image_size('post-thumbnail-large', 750, 500, true ); /* blog thumbnail */
+    add_image_size('post-thumbnail-large-table', 600, 300, true ); /* blog thumbnail for table */
+    add_image_size('post-thumbnail-large-mobile', 400, 200, true ); /* blog thumbnail for mobile */
+    add_image_size('zerif_project_photo', 400, 400, true);
+    add_image_size('803142_our_team_photo', 188, 188, true);
 
 
    // This theme uses wp_nav_menu() in two locations.
@@ -144,7 +155,7 @@ add_action( 'after_setup_theme', 'm803142_setup' );
 add_filter( 'the_content', 'my_the_content_filter' );
 function my_the_content_filter( $content ){
    
-    return str_replace("img class=\"", "img class=\"img-responsive ", $content);
+    return str_replace("<img class=\"", "<img class=\"img-responsive ", $content);
     
 }
 function add_image_class($class){
@@ -155,6 +166,7 @@ function add_image_class($class){
     return $class;
 }
 add_filter('get_image_tag_class','add_image_class');
+
 /**
  * Replaces "[...]" (appended to automatically generated excerpts) with ... and
  * a 'Continue reading' link.
@@ -227,20 +239,45 @@ if ( ! is_nav_menu( 'Primary' ) ) {
     wp_update_nav_menu_item( $menu_id, 1 );
 }
 
-
-function bootstrap_embed( $html, $url, $attr ) {
-	if ( ! is_admin() ) {
-		return "<div class=\"embed-responsive embed-responsive-16by9\">" . $html . "</div>";
-	} else {
-		return $html;
-	}
-}
 add_filter( 'embed_oembed_html', 'bootstrap_embed', 10, 3 );
+function bootstrap_embed( $html, $url, $attr ) {
+    if ( ! is_admin() ) {
+        return "<div class=\"embed-responsive embed-responsive-16by9\">" . $html . "</div>";
+    } else {
+        return $html;
+    }
+}
+add_filter( 'img_caption_shortcode', 'my_img_caption_shortcode', 10, 3 );
+
+function my_img_caption_shortcode( $empty, $attr, $content ){
+    $attr = shortcode_atts( array(
+        'id'      => '',
+        'align'   => 'alignnone',
+        'width'   => '',
+        'caption' => ''
+    ), $attr );
+
+    if ( 1 > (int) $attr['width'] || empty( $attr['caption'] ) ) {
+        return '';
+    }
+
+    if ( $attr['id'] ) {
+        $attr['id'] = 'id="' . esc_attr( $attr['id'] ) . '" ';
+    }
+
+    return '<div ' . $attr['id']
+    . 'class="thumbnail center-block wp-caption ' . esc_attr( $attr['align'] ) . '" '
+    . 'style="max-width: ' . ( 10 + (int) $attr['width'] ) . 'px;">'
+    . do_shortcode( $content )
+    . '<div class="caption"><p class="wp-caption-text">' . $attr['caption'] . '</p>'
+    . '</div></div>';
+
+}
 /* 
  * Изменение вывода галереи через шоткод 
  * $output = apply_filters( 'post_gallery', '', $attr );
- */
 
+add_filter('img_caption_shortcode', 'bootstrap_img_caption_shortcode', 10, 2); */
 add_filter('post_gallery', 'my_gallery_output', 10, 2);
 function my_gallery_output( $output, $attr ){
     $ids_arr = explode(',', $attr['ids']);

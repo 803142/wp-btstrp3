@@ -38,8 +38,11 @@
 <?php/* post loop for each category listing */?>
 
 <div class="row">
-<?php
-        foreach($posts as $post) :
+<?php       $row3=0;
+            foreach($posts as $post) :
+            $row3++;
+            if ($row3==4):?> </div><div class="row"><?php $row3=0;
+            endif ;
             the_post();
             $a=wp_get_attachment_image_src( get_post_thumbnail_id($post->ID),'thumbnail');
             $category = get_the_category();
@@ -48,19 +51,20 @@
             
               <div class="col-sm-6 col-md-4">
                 <div class="thumbnail">
-                <small style="position: absolute;" class="label label-default"><?php the_time('F jS, Y') ?>
+                <small style="position: absolute;" class="label label-default label-date"><?php the_time('d-m-Y') ?>
                  <!-- by <?php the_author() ?> --></small>
-                <small style="position: absolute;right:0;" class="label label-danger">
+                <small class="label label-danger label-cat">
                 <a  href="<?php echo get_category_link($current_cat);  ?>" style="color:white;" title="View all posts in <?php echo get_the_category_by_id($current_cat); ?>"><?php echo get_the_category_by_id($current_cat); ?></a>
                 </small>
+                <img class="img-responsive mw-100" <?php echo 'src="'.$a[0] ?> " alt="">
                 <div class="caption">
-                <h3><a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title(); ?>">
-                <?php the_title(); ?>                   
-                </a></h3>
+                <a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title(); ?>">
+                <?php the_title('<h3 itemprop="headline">', '</h3>'); ?>                   
+                </a>
                     <?php the_excerpt(); ?>
-                <p class="postmetadata"><?php edit_post_link('Edit','','<strong>|</strong>'); ?>  <?php comments_popup_link('No Comments &#187;', '1 Comment &#187;', '% Comments &#187;'); ?></p>
-				</div>
-                    <img class="img-responsive mw-100" <?php echo 'src="'.$a[0] ?> " alt="">
+                <?php /*get_template_part( 'sharebutton' )*/ ?></p>
+        </div>
+                    
                 
             </div>
             </div>

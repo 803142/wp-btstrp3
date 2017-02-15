@@ -12,22 +12,44 @@
 
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> itemscope  itemtype="http://schema.org/TechArticle">
 
-    <?php $a=wp_get_attachment_image_src( get_post_thumbnail_id($post->ID),'medium');?>
+    <?php $a=wp_get_attachment_image_src( get_post_thumbnail_id($post->ID),'thumbnail');?>
 	
 	<?php if ( !is_single() ) : ?>
-	<?php the_title( '<h3 >', '</h3>' ); ?>
-	<div class="row">		
+	 <a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title(); ?>">
+                <?php the_title('<h3 itemprop="headline">', '</h3>'); ?>                   
+                </a>
+		<div class="row">		
             
-        <div class="col-md-4 ">
-		<img class="img-responsive mw-100" <?php echo 'src="'.$a[0] ?> " alt="">
+        <div class="col-md-4 " >
+		<small style="position: absolute;" class="label label-default" itemprop="datePublished"><?php the_time('d-m-Y') ?>
+                 <!-- by <?php the_author() ?> --></small>
+        
+		<img class="img-responsive mw-100" <?php echo 'src="'.$a[0] ?> " alt="" itemprop="image">
 		</div>	
 	    	
 	
-	<div class="col-md-8">
+		<div class="col-md-8">
+	<?php else : ?>	
+	<?php the_title( '<h3 itemprop="headline">', '</h3>' ); ?>
+		<div class="row" >
+		<div class="col-xs-6" >
+		<ul class="nav nav-pills navbar-left navbar-default">
+		<li class="btn " itemprop="datePublished"><?php the_time('d-m-Y') ?>
+
+                 <!-- by <?php the_author() ?> --></li>
+
+        <?php  if (get_post_format()=='video'):?><li class="btn btn-video" ></li><?php endif; ?>
+        </ul>
+                 </div>
+                 <div class="col-xs-6" ><?php get_template_part( 'sharebutton' ) ?></div>
+                 </div>
+        
+        <img class="img-thumbnail center-block" <?php echo 'src="'.$a[0] ?> " alt="" itemprop="image">
 		
-        <?php endif; ?>
+		
+    <?php endif; ?>
         	
 	<!-- .entry-content -->
 

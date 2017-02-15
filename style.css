@@ -41,7 +41,7 @@ Version: 1.0
 1.0 Normalize
 Styles based on Normalize v5.0.0 @link https://github.com/necolas/normalize.css
 --------------------------------------------------------------*/
-body{background:#ccc;}
+body{background:#f5f5f5;}
 html{margin: 0px !important;}
 .card-img-overlay{background: rgba(0,0,0,0.5);}
 
@@ -66,18 +66,19 @@ html{margin: 0px !important;}
     width: 100%;
 }
 
-#header{background-color:#ccc;
+header{
+  background-color:#a3dde0;
 }
 .navbar-default {
-    background-color: #ccc;
-    border-color: #ccc;
+    background-color: #a3dde0;
+    border-color: #a3dde0;
 }
 .carousel-inner>.item>a>img, .carousel-inner>.item>img, .img-responsive, .thumbnail a>img, .thumbnail>img {
    
     margin: 0 auto;
 }
 .navbar {
-    margin-top: 1em;
+    margin-top: 0em;
     margin-bottom: 1em;
     border: none;
 }
@@ -90,11 +91,11 @@ html{margin: 0px !important;}
 }
 .thumbnail .caption {
   padding: 4px;
-  position: absolute;
+  /*position: absolute;*/
   width:100%;
-  background: rgba(255,255,255,0.5);
-  bottom:0;
-  height: 75%;
+  background: rgba(255,255,255,0.7);
+  /*bottom:0;*/
+  /*height: 75%;*/
     border-radius: 0 0 0.25em  0.25em;
     -webkit-transition: border .2s ease-in-out;
     -o-transition: border .2s ease-in-out;
@@ -103,12 +104,12 @@ html{margin: 0px !important;}
 .thumbnail {
   padding:0;
   position: relative;
-  border-radius: .25em;
+  border-radius: 0.25em;
     -webkit-transition: border .2s ease-in-out;
     -o-transition: border .2s ease-in-out;
     transition: border .2s ease-in-out;
-  background-color: #cdcdcd;
-  border: 1px solid #cdcdcd;
+  /*background-color: #a3dde0;*/
+  border: 1px solid #f5f5f5;
  
   
 }
@@ -116,14 +117,49 @@ img.avatar{
   border-radius: 50%;
 }
 .thumbnail>img{
-  border-radius: 0.25em;
+  border-radius: 0.25em  0.25em 0 0;
     -webkit-transition: border .2s ease-in-out;
     -o-transition: border .2s ease-in-out;
     transition: border .2s ease-in-out;
 }
-.comment-form-author,
+/*.comment-form-author,
 .comment-form-email,
 .comment-form-url ,
 .comment-form-comment{
     width: 50%;
+}*/
+.label-date{
+  position:absolute;
+  top:-4px;
+  left:-4px;
 }
+.label-cat{
+  position:absolute;
+  top:-4px;
+  right:-4px;
+}
+.btn-share:before{content: '\f1e0';font-family: FontAwesome;}
+.btn-comment:before{content: '\f086';font-family: FontAwesome;}
+.btn-edit:before{content: '\f044';font-family: FontAwesome;}
+.btn-video:before{content: '\f03d';font-family: FontAwesome;}
+
+.btn-twitter { background: #00acee; border-radius: 0; color: #fff ; } 
+.btn-twitter:before{content: '\f099';font-family: FontAwesome;}
+.btn-twitter:hover { background: #0087bd; color: #fff } 
+
+.btn-facebook { background: #3b5998; border-radius: 0; color: #fff } 
+.btn-facebook:before{content: '\f230';font-family: FontAwesome;font-size: 1.5em}
+.btn-facebook:hover { background: #30477a; color: #fff }
+
+.btn-googleplus { background: #e93f2e; border-radius: 0; color: #fff } 
+.btn-googleplus:before{content: '\f2b3';font-family: FontAwesome;font-size: 1.5em}
+.btn-googleplus:hover { background: #ba3225; color: #fff } 
+
+
+.btn-stumbleupon { background: #f74425; border-radius: 0; color: #fff } 
+.btn-stumbleupon:before{content: '\f2b3';font-family: FontAwesome;font-size: 1.5em}
+.btn-stumbleupon:hover { background: #c7371e; color: #fff } 
+
+.btn-linkedin { background: #0e76a8; border-radius: 0; color: #fff } 
+.btn-linkedin:before{content: '\f2b3';font-family: FontAwesome;font-size: 1.5em}
+.btn-linkedin:active, .btn-linkedin:hover { background: #0b6087; color: #fff }

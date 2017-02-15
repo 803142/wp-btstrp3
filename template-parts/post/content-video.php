@@ -1,93 +1,74 @@
 <?php
 /**
- * Template part for displaying video posts
+ * Template part for displaying posts
  *
+ * @link https://codex.wordpress.org/Template_Hierarchy
+ *
+ * @package WordPress
+ * @subpackage Twenty_Seventeen
  * @since 1.0
  * @version 1.0
  */
+
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-	<?php
-		if ( is_sticky() && is_home() ) :
-			echo twentyseventeen_get_svg( array( 'icon' => 'thumb-tack' ) );
-		endif;
-	?>
-	<header class="entry-header">
-		<?php
-			if ( 'post' === get_post_type() ) :
-				echo '<div class="entry-meta">';
-					if ( is_single() ) :
-						twentyseventeen_posted_on();
-					else :
-						echo twentyseventeen_time_link();
-						twentyseventeen_edit_link();
-					endif;
-				echo '</div><!-- .entry-meta -->';
-			endif;
+<article id="post-<?php the_ID(); ?>" <?php post_class(); ?> itemscope  itemtype="http://schema.org/TechArticle">
 
-			if ( is_single() ) {
-				the_title( '<h1 class="entry-title">', '</h1>' );
-			} else {
-				the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
-			}
-		?>
-	</header><!-- .entry-header -->
+    <?php $a=wp_get_attachment_image_src( get_post_thumbnail_id($post->ID),'thumbnail');?>
+	
+	<?php if ( !is_single() ) : ?>
+	 <a href="<?php the_permalink() ?>" rel="bookmark" title="Permanent Link to <?php the_title(); ?>">
+                <?php the_title('<h3 itemprop="headline">', '</h3>'); ?>                   
+                </a>
+		<div class="row">		
+            
+        <div class="col-md-4 " >
+		<small style="position: absolute;" class="label label-default" itemprop="datePublished"><?php the_time('d-m-Y') ?>
+                 <!-- by <?php the_author() ?> --></small>
+        
+		<img class="img-responsive mw-100" <?php echo 'src="'.$a[0] ?> " alt="" itemprop="image">
+		</div>	
+	    	
+	
+		<div class="col-md-8">
+	<?php else : ?>	
+	<?php the_title( '<h3 itemprop="headline">', '</h3>' ); ?>
+		<div class="row" >
+		<div class="col-xs-6" >
+		<ul class="nav nav-pills navbar-left navbar-default">
+		<li class="btn " itemprop="datePublished"><?php the_time('d-m-Y') ?>
 
-	<?php
-		$content = apply_filters( 'the_content', get_the_content() );
-		$video = false;
+                 <!-- by <?php the_author() ?> --></li>
 
-		// Only get video from the content if a playlist isn't present.
-		if ( false === strpos( $content, 'wp-playlist-script' ) ) {
-			$video = get_media_embedded_in_content( $content, array( 'video', 'object', 'embed', 'iframe' ) );
-		}
-	?>
+        <?php  if (get_post_format()=='video'):?><li class="btn btn-video" ></li><?php endif; ?>
+        </ul>
+                 </div>
+                 <div class="col-xs-6" ><?php get_template_part( 'sharebutton' ) ?></div>
+                 </div>
+        
+        <img class="img-thumbnail center-block" <?php echo 'src="'.$a[0] ?> " alt="" itemprop="image">
+		
+		
+    <?php endif; ?>
+        	
+	<!-- .entry-content -->
 
-	<?php if ( '' !== get_the_post_thumbnail() && ! is_single() && empty( $video ) ) : ?>
-		<div class="post-thumbnail">
-			<a href="<?php the_permalink(); ?>">
-				<?php the_post_thumbnail( 'twentyseventeen-featured-image' ); ?>
-			</a>
-		</div><!-- .post-thumbnail -->
-	<?php endif; ?>
-
-	<div class="entry-content">
-
-		<?php if ( ! is_single() ) :
-
-			// If not a single post, highlight the video file.
-			if ( ! empty( $video ) ) :
-				foreach ( $video as $video_html ) {
-					echo '<div class="entry-video">';
-						echo $video_html;
-					echo '</div>';
-				}
-			endif;
-
-		endif;
-
-		if ( is_single() || empty( $video ) ) :
-
+			<?php
 			/* translators: %s: Name of current post */
 			the_content( sprintf(
-				__( 'Continue reading<span class="screen-reader-text"> "%s"</span>', 'twentyseventeen' ),
+				__( '<h4 class="card-title"> "%s"</h4>', '803142' ),
 				get_the_title()
 			) );
-
 			wp_link_pages( array(
-				'before'      => '<div class="page-links">' . __( 'Pages:', 'twentyseventeen' ),
+				'before'      => '<div class="caption">' . __( 'Pages:', '803142' ),
 				'after'       => '</div>',
 				'link_before' => '<span class="page-number">',
 				'link_after'  => '</span>',
 			) );
-
-		endif; ?>
-
-	</div><!-- .entry-content -->
-
-	<?php if ( is_single() ) : ?>
-		<?php twentyseventeen_entry_footer(); ?>
-	<?php endif; ?>
-
+			?>
+            <?php if ( !is_single() ) : ?>
+			</div></div>
+            <?php endif; ?>
+			
+			<hr>
 </article><!-- #post-## -->

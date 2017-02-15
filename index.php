@@ -24,10 +24,7 @@ get_header(); ?>
 			
 			<h1 ><?php single_post_title(); ?></h1>
 			
-		<?php else : ?>
-			
-			<h2 ><?php _e( 'Posts', '803142' ); ?></h2>
-			
+		
 		<?php endif; ?>
 		
         <?php
